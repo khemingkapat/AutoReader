@@ -101,10 +101,12 @@ if secs:
 print(time_text+' to complete this book.')
 #get the start time
 
+finishing = ''
+while finishing.lower() not in ['y','n']:
+	finishing = input('Want to complete(going to the last page and close it) the book for you [Y]/n :')
+
 startTime = time()
 
-
-#loop clicking
 with tqdm(total = math.ceil(roundedTime*3)) as bar:
 	while (time() - startTime  )/60 < roundedTime:
 		page =driver.find_element(by=By.TAG_NAME,value='body')
@@ -116,31 +118,30 @@ with tqdm(total = math.ceil(roundedTime*3)) as bar:
 		bar.update(1)
 
 
-	
+
+
+
+#loop clicking
 
 #get to the last page and quit the book
 notification.notify("AutoReader", "Your Book Is Now Finished")
-finishing = input('Continue to the final page? [Y]/n : ')
 
-while finishing.lower() not in ['y','n']:
-	print('Please Enter A Valid Choice (y or n)')
-	finishing = input('Continue to the final page? [Y]/n : ')
-else:
-	if finishing.lower() == 'y':
-		while True:
-			try:
-				sleep(5)
-				page =driver.find_element(by=By.TAG_NAME,value='body')
-				page.send_keys(Keys.END)
-				nextButton = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'next-slide')))
-				nextButton.click()
-			except TimeoutException:
-				closeBook = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'close-book')))
-				closeBook.click()
-				break
-	elif finishing.lower() == 'n':
-		exit_book = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,'//*[@id="bookreader-main"]/nav/div/ul/li[4]/a/i')))
-		exit_book.click()
+
+if finishing.lower() == 'y':
+	while True:
+		try:
+			sleep(5)
+			page =driver.find_element(by=By.TAG_NAME,value='body')
+			page.send_keys(Keys.END)
+			nextButton = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'next-slide')))
+			nextButton.click()
+		except TimeoutException:
+			closeBook = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'close-book')))
+			closeBook.click()
+			break
+elif finishing.lower() == 'n':
+	exit_book = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,'//*[@id="bookreader-main"]/nav/div/ul/li[4]/a/i')))
+	exit_book.click()
 driver.close()
 print('End Of Program')
 print('THANK YOU')
