@@ -53,7 +53,7 @@ password.send_keys(getpass('Enter Your Password : '))
 
 password.send_keys(Keys.RETURN)
 
-word = driver.find_element(by=By.XPATH,value='/html/body/div[1]/div[3]/div/div/div/div/section[1]/div/div[3]/div/div[1]/div[2]/div[2]/div[1]/ul[1]/li[2]').text
+word = driver.find_element(by=By.XPATH,value='//*[@id="region-main"]/div/div[4]/div/div[1]/div[2]/div[2]/div[1]/ul[1]/li[2]').text
 
 #function to strNum to num
 convertStrToInt = lambda word : int(''.join(word.split(' ')[-1].split(',')))
